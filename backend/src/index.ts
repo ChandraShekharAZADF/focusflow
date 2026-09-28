@@ -15,7 +15,20 @@ const app = express();
 // ─── Global Middleware ───────────────────────────────────
 
 app.use(cors({
-  origin: [config.frontendUrl, 'http://localhost:5173', 'http://localhost:3000'],
+  origin: (requestOrigin, callback) => {
+    if (!requestOrigin) return callback(null, true);
+    if (
+      requestOrigin === config.frontendUrl ||
+      requestOrigin === 'http://localhost:5173' ||
+      requestOrigin === 'http://localhost:3000' ||
+      /\.vercel\.app$/.test(requestOrigin) ||
+      requestOrigin.startsWith('chrome-extension://')
+    ) {
+      return callback(null, true);
+    }
+    // Allow dynamically to prevent breaking deployment preview URLs
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
