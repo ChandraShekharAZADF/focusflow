@@ -2,9 +2,8 @@
 // Switch between development and production API URLs
 
 const CONFIG = {
-  // Change this to your deployed API URL for production
-  // e.g., "https://focusflow-api.onrender.com"
-  BASE_URL: "http://localhost:3001",
+  // Live deployed API URL on Render
+  BASE_URL: "https://focusflow-78ni.onrender.com",
 
   // API endpoints
   get API_URL() {
